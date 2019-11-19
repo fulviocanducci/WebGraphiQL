@@ -6,7 +6,6 @@ using Models;
 using QL.InputTypes;
 using QL.MapTypes;
 using QL.ReturnTypes;
-//https://medium.com/atheros/json-as-an-argument-for-graphql-mutations-and-queries-3cd06d252a04
 namespace QL
 {
   public class QueryTypes : ObjectGraphType

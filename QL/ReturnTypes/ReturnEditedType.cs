@@ -1,5 +1,4 @@
 ﻿using GraphQL.Types;
-
 namespace QL.ReturnTypes
 {
   public class ReturnEditedType : ObjectGraphType<EditedType>

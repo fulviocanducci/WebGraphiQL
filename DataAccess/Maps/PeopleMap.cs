@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Models;
-
 namespace DataAccess.Maps
 {
   public class PeopleMap : IEntityTypeConfiguration<People>
