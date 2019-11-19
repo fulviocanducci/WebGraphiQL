@@ -1,4 +1,6 @@
 ﻿using System;
+using GraphQL.Types;
+
 namespace Models
 {
   public class People
@@ -31,5 +33,10 @@ namespace Models
     public string Name { get; set; }
     public DateTime Created { get; set; }
     public bool Active { get; set; }
+
+    public static implicit operator ObjectGraphType<object>(People v)
+    {
+      throw new NotImplementedException();
+    }
   }
 }

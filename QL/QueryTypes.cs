@@ -6,7 +6,7 @@ using Models;
 using QL.InputTypes;
 using QL.MapTypes;
 using QL.ReturnTypes;
-using System.Linq;
+//https://medium.com/atheros/json-as-an-argument-for-graphql-mutations-and-queries-3cd06d252a04
 namespace QL
 {
   public class QueryTypes : ObjectGraphType
@@ -63,36 +63,44 @@ namespace QL
       );
       #endregion
       #region Edit_People
-      //{"query":"{people_edit(people:{id:7,name:\"Test 7777\",created:\"2001-10-10\",active:true}){id,name,created,active}}"} - POSTMAN
-      //{people_edit(people:{ id: 1,name: "Test5 - bu",created: "2001-10-11",active: true}) { id name created active }} - GraphiQL
-      FieldAsync<PeopleMapType>(
+      //{"query":"{people_edit(people:{id:7,name:\"Test 7777\",created:\"2001-10-10\",active:true}){status description operation}}"} - POSTMAN
+      //{people_edit(people:{ id: 1,name: "Test5 - bu",created: "2001-10-11",active: true}) { status description operation }} - GraphiQL
+      FieldAsync<ReturnEditedType>(
         name: "people_edit",
         arguments: new QueryArguments(new QueryArgument<PeopleMapInput>() { Name = "people" }),
         resolve: async context =>
         {
           People people = context.GetArgument<People>("people");
-          IDbContextTransaction transaction = DatabaseAccess.Database.BeginTransaction();
-          try
-          {            
-            DatabaseAccess.People.Update(people);
-            await DatabaseAccess.SaveChangesAsync();
-            transaction.Commit();
-          }
-          catch
+          bool status = false;
+          if (people.Id > 0 && await DatabaseAccess.People.AnyAsync(x => x.Id == people.Id))
           {
-            transaction?.Rollback();
+            IDbContextTransaction transaction = DatabaseAccess.Database.BeginTransaction();
+            try
+            {
+              DatabaseAccess.People.Update(people);
+              status = await DatabaseAccess.SaveChangesAsync() > 0;
+              transaction.Commit();
+            }
+            catch
+            {
+              transaction?.Rollback();
+            }
+            finally
+            {
+              transaction?.Dispose();
+            }            
           }
-          finally
+          return new EditedType()
           {
-            transaction?.Dispose();
-          }
-          return people;
+            Status = status,
+            Description = status ? "Successfully updated" : "Does not exist or errors"
+          };
         }
       );
       #endregion
       #region Delete_People
-      //{"query":"{people_delete(id:7){status description}}"} - POSTMAN
-      //{people_delete(id: 5) { status description}} - GraphiQL
+      //{"query":"{people_delete(id:7){status description operation}}"} - POSTMAN
+      //{people_delete(id: 5) { status description operation}} - GraphiQL
       FieldAsync<ReturnDeletedType>(
         name:"people_delete",
         arguments: new QueryArguments(new QueryArgument<IdGraphType>() {  Name = "id", DefaultValue = 0}),

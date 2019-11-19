@@ -1,9 +1,10 @@
 ﻿using GraphQL.Types;
+
 namespace QL.ReturnTypes
 {
-  public class ReturnDeletedType : ObjectGraphType<DeletedType>
+  public class ReturnEditedType : ObjectGraphType<EditedType>
   {
-    public ReturnDeletedType()
+    public ReturnEditedType()
     {
       Field(x => x.Status).Name("status");
       Field(x => x.Description).Name("description");
@@ -11,3 +12,4 @@ namespace QL.ReturnTypes
     }
   }
 }
+

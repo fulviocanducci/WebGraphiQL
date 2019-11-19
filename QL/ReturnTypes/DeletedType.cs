@@ -1,8 +1,10 @@
 ﻿namespace QL.ReturnTypes
 {
-  public class DeletedType
+  public class DeletedType: ReturnType
   {
-    public bool Status { get; set; }
-    public string Description { get; set; }
+    public DeletedType()
+    {
+      Operation = "Delete";
+    }
   }
 }
