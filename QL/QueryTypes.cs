@@ -132,7 +132,7 @@ namespace QL
       //{people_find(id: 6) {id name created active}} - GraphiQL
       FieldAsync<PeopleMapType>(
         name: "people_find",
-        arguments: new QueryArguments(new QueryArgument<IdGraphType>() {  Name = "id"}),
+        arguments: new QueryArguments(new QueryArgument<IdGraphType>() { Name = "id" }),
         resolve: async context =>
         {
           int id = context.GetArgument<int>("id");
