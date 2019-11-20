@@ -31,9 +31,9 @@ namespace Web.Controllers
             x.Schema = schema;
             x.Query = query.Query;
             x.OperationName = query.OperationName;
-            x.Inputs = inputs;
+            x.Inputs = inputs;           
           }
-          DocumentExecuter documentExecuter = new DocumentExecuter();
+          DocumentExecuter documentExecuter = new DocumentExecuter();          
           result = await documentExecuter.ExecuteAsync(options);
           if (result?.Errors?.Count > 0)
           {

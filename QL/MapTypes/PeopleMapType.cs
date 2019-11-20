@@ -6,7 +6,7 @@ namespace QL.MapTypes
   {
     public PeopleMapType()
     {
-      Name = "people";
+      //Name = "people";
       Field(x => x.Id).Name("id");
       Field(x => x.Name).Name("name");
       Field(x => x.Created).Name("created");

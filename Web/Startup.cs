@@ -20,11 +20,11 @@ namespace Web
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddEntityFrameworkSqlServer();
-      services.AddDbContext<DatabaseAccess>(options =>
-      {
+      services.AddDbContextPool<DatabaseAccess>(options =>
+      {        
         options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), config =>
         {
-          config.MigrationsAssembly("DataAccess");
+          config.MigrationsAssembly("DataAccess");          
         });
       });
       services.AddControllers();
