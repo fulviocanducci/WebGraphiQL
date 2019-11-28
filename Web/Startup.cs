@@ -19,6 +19,7 @@ namespace Web
     public IConfiguration Configuration { get; }
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddCors();
       services.AddEntityFrameworkSqlServer();
       services.AddDbContextPool<DatabaseAccess>(options =>
       {        
@@ -35,6 +36,11 @@ namespace Web
       {
         app.UseDeveloperExceptionPage();
       }
+      app.UseCors(options => {
+        options.AllowAnyOrigin();
+        options.AllowAnyMethod();
+        options.AllowAnyHeader();
+      });
       
       app.UseGraphiQl("/graphql");
 

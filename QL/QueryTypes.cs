@@ -9,8 +9,11 @@ namespace QL
     {
       DatabaseAccess = databaseAccess;
       PeopleQueryType();
+      PeopleDiversQueryType();
       StateQueryType();
       CountryQueryType();
+      CarQueryType();
+      ItemsQueryType();
     }   
   }
 }

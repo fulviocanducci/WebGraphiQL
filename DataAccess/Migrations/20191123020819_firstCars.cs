@@ -3,10 +3,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DataAccess.Migrations
 {
-    public partial class first : Migration
+    public partial class firstCars : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Car",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: false),
+                    Purchase = table.Column<DateTime>(nullable: false),
+                    Value = table.Column<decimal>(nullable: false, type: "decimal(18,2)"),
+                    Active = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Car", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Peoples",
                 columns: table => new
@@ -62,6 +78,9 @@ namespace DataAccess.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Car");
+
             migrationBuilder.DropTable(
                 name: "Country");
 

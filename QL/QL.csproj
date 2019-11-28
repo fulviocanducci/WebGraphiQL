@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="graphiql" Version="1.2.0" />
-    <PackageReference Include="GraphQL" Version="2.4.0" />
+    <PackageReference Include="GraphQL" Version="3.0.0-preview-1352" />
   </ItemGroup>
 
   <ItemGroup>
