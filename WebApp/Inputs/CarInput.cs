@@ -1,7 +1,7 @@
 ﻿using HotChocolate.Types;
 using WebApp.Models;
 namespace WebApp.Inputs
-{
+{   
    public class CarInput : InputObjectType<Car>
    {
       protected override void Configure(IInputObjectTypeDescriptor<Car> descriptor)

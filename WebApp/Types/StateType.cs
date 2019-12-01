@@ -3,6 +3,7 @@ using WebApp.Models;
 
 namespace WebApp.Types
 {
+   //{"query":"query ($id: Int!) {state_find(id: $id) {id uf}}","variables":{"id":14}}
    public class StateType : ObjectType<State>
    {
       protected override void Configure(IObjectTypeDescriptor<State> descriptor)
