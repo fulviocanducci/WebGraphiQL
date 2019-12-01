@@ -25,7 +25,7 @@ namespace DataAccess.Maps
 
       builder.Property(x => x.Value)
         .HasColumnName("Value")
-        .HasColumnType("decimal(18,2)")        
+        .HasColumnType("decimal(18,2)")  
         .IsRequired();
 
       builder.Property(x => x.Active)

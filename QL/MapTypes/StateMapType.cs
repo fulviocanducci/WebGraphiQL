@@ -1,6 +1,6 @@
 ﻿using GraphQL.Types;
 using Models;
-
+//{"query":"{states{...s}},fragment s on state{id,uf}"}
 namespace QL.MapTypes
 {
    public class StateMapType : ObjectGraphType<State>
@@ -10,7 +10,9 @@ namespace QL.MapTypes
          Name = "state";
          Field(x => x.Id).Name("id");
          Field(x => x.Uf).Name("uf");
-         Field<ListGraphType<CountryMapType>>().Name("country");
+         Field(typeof(ListGraphType<CountryMapType>), name: "country");
       }
    }
+
+   //public class ContryMapListType : ListGraphType<CountryMapType> { }
 }

@@ -36,8 +36,8 @@ namespace QL
               string state = context.GetArgument<string>("state");
               bool load = context.GetArgument<bool>("load");
               IQueryable<State> query = load
-             ? DatabaseAccess.State.AsNoTracking().Include(x => x.Country)
-             : DatabaseAccess.State.AsNoTracking();
+                ? DatabaseAccess.State.AsNoTracking().Include(x => x.Country)
+                : DatabaseAccess.State.AsNoTracking();
               if (!string.IsNullOrEmpty(state))
               {
                  query = query.Where(x => x.Uf == state);
@@ -62,7 +62,7 @@ namespace QL
                ? query.Include(x => x.Country).FirstOrDefault()
                : query.FirstOrDefault();
            }
-         );         
+         );
       }
    }
 }
