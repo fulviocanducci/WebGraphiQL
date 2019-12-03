@@ -8,6 +8,7 @@ namespace WebApp.Queries
          ConfigureTypeState(descriptor);
          ConfigureTypeCountry(descriptor);
          ConfigureTypeCar(descriptor);
+         ConfigureTypeSource(descriptor);
       }
    }
 }

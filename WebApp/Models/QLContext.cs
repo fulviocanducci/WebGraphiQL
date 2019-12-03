@@ -16,6 +16,7 @@ namespace WebApp.Models
       public virtual DbSet<Country> Country { get; set; }
       public virtual DbSet<State> State { get; set; }
       public virtual DbSet<Car> Car { get; set; }
+      public virtual DbSet<Source> Source { get; set; }
 
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
       {
@@ -59,6 +60,17 @@ namespace WebApp.Models
                    .IsRequired()                   
                    .IsUnicode(false);
             entity.Property(x => x.Value).HasColumnType("decimal(18,2)");
+         });
+
+         modelBuilder.Entity<Source>(entity =>
+         {
+            entity.ToTable("Source");
+            entity.HasKey(x => x.Id);
+            entity.Property(x => x.Id).HasColumnName("Id");
+            entity.Property(x => x.Name).HasColumnName("Name");
+            entity.Property(x => x.Value).HasColumnName("Value").HasColumnType("decimal(18,2)");
+            entity.Property(x => x.Created).HasColumnName("Created");
+            entity.Property(x => x.Active).HasColumnName("Active");
          });
 
          OnModelCreatingPartial(modelBuilder);
