@@ -1,4 +1,5 @@
-﻿using HotChocolate.Types;
+﻿using Canducci.GraphQLQuery.CustomTypes;
+using HotChocolate.Types;
 using WebApp.Models;
 
 namespace WebApp.Types
@@ -14,6 +15,7 @@ namespace WebApp.Types
          descriptor.Field(x => x.Value).Name("value").Type<DecimalType>();
          descriptor.Field(x => x.Created).Name("created").Type<DateTimeType>();
          descriptor.Field(x => x.Active).Name("active").Type<BooleanType>();
+         descriptor.Field(x => x.Time).Name("time").Type<TimeSpanType>();
       }
    }
 }

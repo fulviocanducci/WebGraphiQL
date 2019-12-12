@@ -8,5 +8,6 @@ namespace WebApp.Models
       public decimal? Value { get; set; }
       public DateTime? Created { get; set; }
       public bool? Active { get; set; }
+      public TimeSpan? Time { get; set; }
    }
 }

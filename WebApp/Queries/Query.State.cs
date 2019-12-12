@@ -11,6 +11,22 @@ namespace WebApp.Queries
       private void ConfigureTypeState(IObjectTypeDescriptor descriptor)
       {
          descriptor
+            .Field("states_in")
+            .Type<ListType<StateType>>()
+            .Argument("load", x => { x.Type<BooleanType>(); x.DefaultValue(false); })
+            .Argument("ids", x => { x.Type<ListType<IntType>>(); x.DefaultValue(null); })
+            .Resolver(context =>
+            {
+               bool load = context.Argument<bool>("load");
+               int[] ids = context.Argument<int[]>("ids");
+               QLContext qlContext = context.Service<QLContext>();
+               IQueryable<State> query = qlContext.State.Where(x => ids.Contains(x.Id));
+               return load
+                  ? query.Include(x => x.Country).ToList()
+                  : query.ToList();
+            });
+
+         descriptor
             .Field("states")
             .Type<ListType<StateType>>()
             .Argument("load", x => { x.Type<BooleanType>(); x.DefaultValue(false); })

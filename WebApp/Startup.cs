@@ -3,7 +3,6 @@ using HotChocolate.AspNetCore;
 using HotChocolate.AspNetCore.Playground;
 using HotChocolate.Execution.Configuration;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,18 +25,19 @@ namespace WebApp
          services.AddDbContext<QLContext>(x =>
          {
             x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-         });         
+         });
          services.AddGraphQL(
             SchemaBuilder.New()
                .AddQueryType<Query>()
                .AddType<StateType>()
                .AddType<CountryType>()
+               .AddType<CarType>()
                .Create()
          );
          new QueryExecutionOptions { TracingPreference = TracingPreference.Always };
          //services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
       }
-      public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+      public void Configure(IApplicationBuilder app)
       {
          //if (env.IsDevelopment())
          //{

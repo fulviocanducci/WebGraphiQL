@@ -90,23 +90,27 @@ namespace WebApp.Queries
            .Argument("id", x => { x.Type<IntType>(); x.DefaultValue(0); })
            .Resolver(context =>
            {
+              int count = 0;
               int id = context.Argument<int>("id");
               QLContext qlContext = context.Service<QLContext>();
-              IDbContextTransaction transaction = qlContext.Database.BeginTransaction();
-              int count = 0;
-              try
+              var car = qlContext.Car.Find(id);              
+              if (car != null)
               {
-                 qlContext.Car.Remove(qlContext.Car.Find(id));
-                 count = qlContext.SaveChanges();
-                 transaction.Commit();
-              }
-              catch
-              {
-                 transaction.Rollback();
-              }
-              finally
-              {
-                 transaction.Dispose();
+                 IDbContextTransaction transaction = qlContext.Database.BeginTransaction();
+                 try
+                 {
+                    qlContext.Car.Remove(car);
+                    count = qlContext.SaveChanges();
+                    transaction.Commit();
+                 }
+                 catch
+                 {
+                    transaction.Rollback();
+                 }
+                 finally
+                 {
+                    transaction.Dispose();
+                 }
               }
               return Remove.Create(count);
            });

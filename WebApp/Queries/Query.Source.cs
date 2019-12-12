@@ -1,4 +1,5 @@
-﻿using HotChocolate.Types;
+﻿using Canducci.GraphQLQuery.CustomTypes;
+using HotChocolate.Types;
 using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Linq;
@@ -53,10 +54,11 @@ namespace WebApp.Queries
            .Field("source_param_add")
            .Type<SourceType>()
            .Argument("id", x => { x.Type<UuidType>(); x.DefaultValue(null); })
-           .Argument("name", x => { x.Type<IntType>(); x.DefaultValue(null); })
+           .Argument("name", x => { x.Type<StringType>(); x.DefaultValue(null); })
            .Argument("value", x => { x.Type<DecimalType>(); x.DefaultValue(null); })
            .Argument("created", x => { x.Type<DateTimeType>(); x.DefaultValue(null); })
            .Argument("active", x => { x.Type<BooleanType>(); x.DefaultValue(null); })
+           .Argument("time", x => { x.Type<TimeSpanType>(); x.DefaultValue(null); })
            .Resolver(context =>
            {
               Guid? id = context.Argument<Guid?>("id");
@@ -64,13 +66,19 @@ namespace WebApp.Queries
               decimal? value = context.Argument<decimal?>("value");
               DateTime? created = context.Argument<DateTime?>("created");
               bool? active = context.Argument<bool?>("active");
+              TimeSpan? time = context.Argument<TimeSpan?>("time");
+              if (id == Guid.Empty)
+              {
+                 id = null;
+              }
               Source source = new Source()
               {
                  Id = id,
                  Name = name,
                  Value = value,
                  Created = created,
-                 Active = active
+                 Active = active,
+                 Time = time
               };
               QLContext qlContext = context.Service<QLContext>();
               IDbContextTransaction transaction = qlContext.Database.BeginTransaction();
@@ -121,21 +129,21 @@ namespace WebApp.Queries
          descriptor
            .Field("source_find")
            .Type<SourceType>()
-           .Argument("id", x => { x.Type<IntType>(); x.DefaultValue(0); })
+           .Argument("id", x => { x.Type<UuidType>(); })
            .Resolver(context =>
            {
-              int id = context.Argument<int>("id");
+              Guid id = context.Argument<Guid>("id");
               QLContext qlContext = context.Service<QLContext>();
-              return qlContext.Car.Find(id);
+              return qlContext.Source.Find(id);
            });
 
          descriptor
            .Field("source_remove")
            .Type<RemoveType>()
-           .Argument("id", x => { x.Type<IntType>(); x.DefaultValue(0); })
+           .Argument("id", x => { x.Type<UuidType>(); })
            .Resolver(context =>
            {
-              int id = context.Argument<int>("id");
+              Guid id = context.Argument<Guid>("id");
               QLContext qlContext = context.Service<QLContext>();
               IDbContextTransaction transaction = qlContext.Database.BeginTransaction();
               int count = 0;
